@@ -7,13 +7,13 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://127.0.0.1:5173",
+    origin: "https://doc-o-rama.vercel.app",
   },
 });
 
 app.use(
   cors({
-    origin: "http://127.0.0.1:5173",
+    origin: "https://doc-o-rama.vercel.app",
   })
 );
 

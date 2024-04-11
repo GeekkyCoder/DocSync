@@ -8,7 +8,7 @@ import Box from "@mui/material/Box";
 import EditorActionButton from "./components/EditorActionButton";
 import { colors } from "@mui/material";
 
-const socket = io("http://localhost:5173");
+const socket = io("https://doc-o-rama-p2qj.vercel.app");
 
 function SyncingEditor({ groupId }) {
   const [value, setValue] = useState(initialValue);
