@@ -17,23 +17,6 @@ app.use(
   })
 );
 
-let value = {
-  document: {
-    nodes: [
-      {
-        object: "block",
-        type: "paragraph",
-        nodes: [
-          {
-            object: "text",
-            text: "A line of text in a paragraph.",
-          },
-        ],
-      },
-    ],
-  },
-};
-
 let initialEditorData = {
   document: {
     nodes: [
@@ -53,10 +36,17 @@ let initialEditorData = {
 
 const groupData = {};
 
+const mousePositions = {}
+
 io.on("connection", (socket) => {
   socket.on("new_operation", (editorData) => {
     groupData[editorData.groupId] = editorData?.value;
     io.emit(`new-remote-operations-${editorData.groupId}`, editorData);
+  });
+
+  socket.on("mousemove", (mouseData) => {
+    mousePositions[socket.id] = mouseData;
+    io.emit('mousemove', { id: socket.id, position: mouseData });
   });
 });
 
