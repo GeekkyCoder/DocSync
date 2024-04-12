@@ -1,18 +1,63 @@
+import { useContext, useEffect, useState } from "react";
+import Snackbar from "@mui/material/Snackbar";
 import GroupEditor from "./GroupEditor";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Appbar from "./components/AppBar";
+import { SocketContext } from "./context/socket-context";
 
-import { v4 as uuidv4 } from "uuid";
-
-const groupId = uuidv4();
+const initialData = {
+  username: "",
+  roomId: "",
+};
 
 const App = () => {
+  const { socket } = useContext(SocketContext);
+  const [isSnackBarOpen, setIsSnacBarOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [formData, setFormData] = useState(initialData);
+
+  const handleSnackBarOpen = () => {
+    setIsSnacBarOpen(true);
+  };
+
+  const handleSnackBarClose = () => {
+    setIsSnacBarOpen(false);
+  };
+
+  useEffect(() => {
+    socket.on("join-room", (data) => {
+      setMessage(`${data?.username} joined the room`);
+      handleSnackBarOpen();
+
+      setTimeout(() => {
+        handleSnackBarClose();
+      }, [10000]);
+    });
+
+    return () => socket.off("join-room");
+  }, []);
+
+
   return (
     <div>
       <Appbar />
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        open={isSnackBarOpen}
+        onClose={handleSnackBarClose}
+        message={message}
+      />
       <Routes>
-        <Route path="/" element={<Navigate to={`/group/${groupId}`} />} />
-        <Route path="/group/:id" element={<GroupEditor />} />
+        <Route
+          path="/"
+          element={
+            <GroupEditor
+              socket={socket}
+              formData={formData}
+              setFormData={setFormData}
+            />
+          }
+        />
       </Routes>
     </div>
   );

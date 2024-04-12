@@ -36,21 +36,26 @@ let initialEditorData = {
 
 const groupData = {};
 
-const mousePositions = {}
+const mousePositions = {};
 
 io.on("connection", (socket) => {
   socket.on("new_operation", (editorData) => {
-    groupData[editorData.groupId] = editorData?.value;
-    io.emit(`new-remote-operations-${editorData.groupId}`, editorData);
+    groupData[editorData.roomId] = editorData?.value;
+    io.emit(`new-remote-operations-${editorData.roomId}`, editorData);
   });
 
   socket.on("mousemove", (mouseData) => {
     mousePositions[socket.id] = mouseData;
-    io.emit('mousemove', { id: socket.id, position: mouseData });
+    io.emit("mousemove", { id: socket.id, position: mouseData });
+  });
+
+  socket.on("join-room", (data) => {
+    socket.join(data?.roomId);
+    io.emit("join-room", data);
   });
 });
 
-app.get("/groups/:id", (req, res) => {
+app.get("/rooms/:id", (req, res) => {
   const { id } = req.params;
 
   //if data does not exist in group for this groupId,initialze it and send the data later...
