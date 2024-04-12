@@ -10,6 +10,8 @@ import { colors } from "@mui/material";
 
 const socket = io("https://doc-o-rama-p2qj.vercel.app");
 
+// const socket = io("http://localhost:5173")
+
 function SyncingEditor({ groupId }) {
   const [value, setValue] = useState(initialValue);
 
