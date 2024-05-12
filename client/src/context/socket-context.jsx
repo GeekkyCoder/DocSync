@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 
 const SocketContext = createContext();
 
-const socket = io("http://127.0.0.1:5173");
+const socket = io("https://docsync-t2gr.onrender.com");
 
 function SocketContextProivider({ children }) {
   const value = {
