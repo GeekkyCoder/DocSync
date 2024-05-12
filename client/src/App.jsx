@@ -25,6 +25,9 @@ const App = () => {
   };
 
   useEffect(() => {
+    alert(
+      "copy the url and remember the room name, when you are in same room, you will be able to see  changes in real time for 2 different users in same room"
+    );
     socket.on("join-room", (data) => {
       setMessage(`${data?.username} joined the room`);
       handleSnackBarOpen();
@@ -36,7 +39,6 @@ const App = () => {
 
     return () => socket.off("join-room");
   }, []);
-
 
   return (
     <div>
