@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 
 const SocketContext = createContext();
 
-const socket = io("https://doc-o-rama-p2qj.vercel.app");
+const socket = io("http://127.0.0.1:5173");
 
 function SocketContextProivider({ children }) {
   const value = {

@@ -71,7 +71,7 @@ function Appbar() {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
-            Doc-o-Rama
+            Doc Sync
           </Typography>
           <Search>
             <SearchIconWrapper>
